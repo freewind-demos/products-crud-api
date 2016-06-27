@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/', require('./product-handlers/get-all-products'));
-router.post('/', require('./product-handlers/insert-product'));
-router.get('/:id', require('./product-handlers/get-product'));
-router.put('/:id', require('./product-handlers/update-product'));
-router.delete('/:id', require('./product-handlers/delete-product'));
+router.route('/')
+  .get(require('./product-handlers/get-all-products'))
+  .post(require('./product-handlers/insert-product'));
+
+router.route('/:id(\\d+)')
+  .get(require('./product-handlers/get-product'))
+  .put(require('./product-handlers/update-product'))
+  .delete(require('./product-handlers/delete-product'));
 
 module.exports = router;
