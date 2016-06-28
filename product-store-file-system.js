@@ -1,25 +1,20 @@
 var fs = require('fs');
-var store = require('./product-store');
 
 var DATA_FILE = './store.json';
 var CHARSET = 'utf-8';
-
-function _storeToJson(store) {
-  return JSON.stringify(store.getRaw());
-}
-
-function _jsonToStore(json) {
-  return store.wrap(JSON.parse(json));
-}
+var EMPTY_STORE = {
+  nextId: 1,
+  items: []
+};
 
 function read(callback) {
   fs.readFile(DATA_FILE, CHARSET, function (err, content) {
-    callback(err, content && _jsonToStore(content));
+    callback(err, content && JSON.parse(content));
   });
 }
 
 function write(store, callback) {
-  fs.writeFile(DATA_FILE, _storeToJson(store), callback);
+  fs.writeFile(DATA_FILE, JSON.stringify(store), callback);
 }
 
 function _fileExistsSync(path) {
@@ -34,7 +29,7 @@ function _fileExistsSync(path) {
 function initSync() {
   var dataFileNotFound = !_fileExistsSync(DATA_FILE);
   if (dataFileNotFound) {
-    fs.writeFileSync(DATA_FILE, _storeToJson(store.empty));
+    fs.writeFileSync(DATA_FILE, JSON.stringify(EMPTY_STORE));
   }
 }
 

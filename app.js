@@ -1,8 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var storeSystem = require('./product-store-system');
+var storeFs = require('./product-store-file-system');
 
-storeSystem.initSync();
+storeFs.initSync();
 
 var app = express();
 app.use(bodyParser.json());

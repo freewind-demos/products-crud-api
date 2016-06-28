@@ -1,7 +1,7 @@
-var productManager = require('../product-manager');
+var productStore = require('../product-store');
 
 module.exports = function (req, res, next) {
-  productManager.getAll(function (err, items) {
+  productStore.getAll(function (err, items) {
     if (err) return next(err);
     res.status(200).json(items);
   });

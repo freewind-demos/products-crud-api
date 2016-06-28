@@ -1,5 +1,5 @@
 var helpers = require('./user-data-helpers');
-var productManager = require('../product-manager');
+var productStore = require('../product-store');
 
 module.exports = function (req, res, next) {
   var userData = helpers.getProductData(parseInt(req.params.id), req.body);
@@ -7,7 +7,7 @@ module.exports = function (req, res, next) {
   if (invalidData) {
     return res.sendStatus(400);
   }
-  productManager.save(userData, function (err, insertedData) {
+  productStore.save(userData, function (err, insertedData) {
     if (err) return next(err);
     res.status(201).json(insertedData);
   });
