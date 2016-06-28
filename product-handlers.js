@@ -1,4 +1,5 @@
 var productStore = require('./product-store');
+var HttpCode = require('http-status-codes');
 
 function _validData(data) {
   return typeof data.barcode == 'string' &&
@@ -22,9 +23,9 @@ function deleteProduct(req, res, next) {
   productStore.deleteById(id, function (err, deleted) {
     if (err)  return next(err);
     if (deleted) {
-      res.sendStatus(204);
+      res.sendStatus(HttpCode.NO_CONTENT);
     } else {
-      res.sendStatus(404);
+      res.sendStatus(HttpCode.NOT_FOUND);
     }
   });
 }
@@ -32,7 +33,7 @@ function deleteProduct(req, res, next) {
 function getAllProducts(req, res, next) {
   productStore.getAll(function (err, items) {
     if (err) return next(err);
-    res.status(200).json(items);
+    res.status(HttpCode.OK).json(items);
   });
 }
 
@@ -41,9 +42,9 @@ function getProduct(req, res, next) {
   productStore.findById(id, function (err, found) {
     if (err) return next(err);
     if (found) {
-      res.status(200).json(found);
+      res.status(HttpCode.OK).json(found);
     } else {
-      res.sendStatus(404);
+      res.sendStatus(HttpCode.NOT_FOUND);
     }
   });
 }
@@ -52,11 +53,11 @@ function saveProduct(req, res, next) {
   var userData = _getProductData(parseInt(req.params.id), req.body);
   var invalidData = !_validData(userData);
   if (invalidData) {
-    return res.sendStatus(400);
+    return res.sendStatus(HttpCode.BAD_REQUEST);
   }
   productStore.save(userData, function (err, insertedData) {
     if (err) return next(err);
-    res.status(201).json(insertedData);
+    res.status(HttpCode.CREATED).json(insertedData);
   });
 }
 
@@ -64,14 +65,14 @@ function updateProduct(req, res, next) {
   var modifiedData = _getProductData(parseInt(req.params.id), req.body);
   var invalidData = !_validData(modifiedData);
   if (invalidData) {
-    return res.sendStatus(400);
+    return res.sendStatus(HttpCode.BAD_REQUEST);
   }
   productStore.update(modifiedData, function (err, updated) {
     if (err) return next(err);
     if (updated) {
-      res.status(200).json(modifiedData);
+      res.status(HttpCode.OK).json(modifiedData);
     } else {
-      res.sendStatus(404);
+      res.sendStatus(HttpCode.NOT_FOUND);
     }
   });
 }
