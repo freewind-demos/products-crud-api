@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "body-parser": "~1.13.2",
-    "express": "~4.13.1",
-    "http-status-codes": "^1.0.6",
-    "lodash": "^4.13.1"
+    "body-parser": "1.13.2",
+    "express": "4.13.1",
+    "http-status-codes": "1.0.6",
+    "lodash": "4.13.1"
   }
 }
